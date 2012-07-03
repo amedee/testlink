@@ -1,5 +1,3 @@
-Const strQuote = Chr(34)
-
 Sub genReqnTcArr()
 Dim lRow, lCol As Long
 Dim duplicate As Boolean
@@ -7,6 +5,9 @@ Dim oneCell, onesMerged, tsRange, tcRange, reqRange As Range
 Dim tsColCount, tcColCount, reqColCount, tcCFCount, arrRow, temp As Integer
 Dim arrReq(), arrTS(), arrTc(), arrReqTc(), arrTcCF() As Variant
 Dim strTemp, xmlStr, xlsFileName, xmlTcFileName, xmlReqFileName As String
+Dim strQuote
+strQuote = Chr(34)
+
 'Initializing Counts
 tsColCount = 0
 tcColCount = 0
