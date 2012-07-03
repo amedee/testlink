@@ -288,7 +288,19 @@ If tcColCount <> 0 Then
   Else
     Print #2, "<testcases>"
   End If
- 
+
+  Dim iStepsColumn As Integer
+  Dim iExpectedResultsColumn As Integer
+  For iCol = 1 To tcColCount - tcCFCount
+    Select Case arrTc(0, iCol)
+      Case "Steps"
+        iStepsColumn = iCol
+      Case "Expected Results"
+        iExpectedResultsColumn = iCol
+    End Select
+  Next iCol
+  If iExpectedResultsColumn = 0 Then iExpectedResultsColumn = iStepsColumn
+  
   strTemp = ""
   For iRow = 1 To arrRow
  
@@ -317,10 +329,13 @@ If tcColCount <> 0 Then
             xmlStr = strTemp & "        <summary><![CDATA[" & arrTc(iRow, iCol) & "]]></summary>"
             Print #2, xmlStr
           Case "Steps"
-            xmlStr = strTemp & "        <steps><![CDATA[" & arrTc(iRow, iCol) & "]]></steps>"
-            Print #2, xmlStr
-          Case "Expected Results"
-            xmlStr = strTemp & "        <expectedresults><![CDATA[" & arrTc(iRow, iCol) & "]]></expectedresults>"
+            xmlStr = strTemp & strTemp & strTemp & "<steps>" & vbNewLine & _
+                     strTemp & strTemp & strTemp & strTemp & "<step>" & vbNewLine & _
+                     strTemp & strTemp & strTemp & strTemp & strTemp & "<step_number><![CDATA[1]]></step_number>" & vbNewLine & _
+                     strTemp & strTemp & strTemp & strTemp & strTemp & "<actions><![CDATA[" & arrTc(iRow, iStepsColumn) & "]]></actions>" & vbNewLine & _
+                     strTemp & strTemp & strTemp & strTemp & strTemp & "<expectedresults><![CDATA[" & arrTc(iRow, iExpectedResultsColumn) & "]]></expectedresults>" & vbNewLine & _
+                     strTemp & strTemp & strTemp & strTemp & "</step>" & vbNewLine & _
+                     strTemp & strTemp & strTemp & "</steps>"
             Print #2, xmlStr
           End Select
         End If
