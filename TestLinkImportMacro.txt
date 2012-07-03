@@ -250,7 +250,7 @@ If reqColCount <> 0 Then
   For iRow = 1 To arrRow
     temp = 0
     For iCol = 1 To reqColCount
-      If arrReq(iRow, iCol) <> "" Then
+      If arrReq(iRow, iCol) <> vbNullString Then
         Select Case arrReq(0, iCol)
           Case "Spec Title"
             'Do Nothing
@@ -301,13 +301,13 @@ If tcColCount <> 0 Then
   Next iCol
   If iExpectedResultsColumn = 0 Then iExpectedResultsColumn = iStepsColumn
   
-  strTemp = ""
+  strTemp = vbNullString
   For iRow = 1 To arrRow
  
     temp = 0
    
     If tsColCount <> 0 Then
-      If arrTS(iRow, 1) <> "" Then
+      If arrTS(iRow, 1) <> vbNullString Then
         xmlStr = "    <testsuite name=" & Chr(34) & arrTS(iRow, 1) & Chr(34) & ">"
         Print #2, xmlStr
         xmlStr = "        <details><![CDATA[" & arrTS(iRow, 2) & "]]></details>"
@@ -317,7 +317,7 @@ If tcColCount <> 0 Then
     End If
    
     For iCol = 1 To tcColCount - tcCFCount
-      If arrTc(iRow, iCol) <> "" Then
+      If arrTc(iRow, iCol) <> vbNullString Then
         Select Case arrTc(0, iCol)
           Case "Name"
             xmlStr = strTemp & "    <testcase name=" & Chr(34) & arrTc(iRow, iCol) & Chr(34) & ">"
@@ -346,7 +346,7 @@ If tcColCount <> 0 Then
     If tcCFCount <> 0 Then
       For i = 1 To arrRow * tcCFCount
         If arrTc(iRow, 2) = arrTcCF(i, 1) Then
-          If arrTcCF(i, 2) <> "" And arrTcCF(i, 3) <> "" Then
+          If arrTcCF(i, 2) <> vbNullString And arrTcCF(i, 3) <> vbNullString Then
             If temp = 0 Then
               xmlStr = strTemp & "        <custom_fields>"
               Print #2, xmlStr
@@ -374,7 +374,7 @@ If tcColCount <> 0 Then
     If reqColCount <> 0 Then
       For i = 1 To arrRow
         If arrTc(iRow, 2) = Trim(Str(i)) Then
-          If arrReqTc(i, 1) <> "" And arrReqTc(i, 2) <> "" Then
+          If arrReqTc(i, 1) <> vbNullString And arrReqTc(i, 2) <> vbNullString Then
             xmlStr = strTemp & "        <requirements>"
             Print #2, xmlStr
             xmlStr = strTemp & "            <requirement>"
@@ -397,7 +397,7 @@ If tcColCount <> 0 Then
    
     If tsColCount <> 0 Then
       If iRow < arrRow Then
-        If arrTS(iRow + 1, 1) <> "" Then
+        If arrTS(iRow + 1, 1) <> vbNullString Then
             Print #2, "    </testsuite>"
         End If
       Else
