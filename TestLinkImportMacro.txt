@@ -1,3 +1,5 @@
+Const strQuote = Chr(34)
+
 Sub genReqnTcArr()
 Dim lRow, lCol As Long
 Dim duplicate As Boolean
@@ -244,7 +246,7 @@ End If
 'Create the Requirements XML file
 If reqColCount <> 0 Then
   Open xmlReqFileName For Output As #1
-  Print #1, "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>"
+  Print #1, "<?xml version=" & strQuote & "1.0" & strQuote & " encoding=" & strQuote & "UTF-8" & strQuote & "?>"
   Print #1, "<requirements>"
  
   For iRow = 1 To arrRow
@@ -280,10 +282,10 @@ End If
 'Create the Test Cases XML file
 If tcColCount <> 0 Then
   Open xmlTcFileName For Output As #2
-  Print #2, "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>"
+  Print #2, "<?xml version=" & strQuote & "1.0" & strQuote & " encoding=" & strQuote & "UTF-8" & strQuote & "?>"
  
   If tsColCount <> 0 Then
-    Print #2, "<testsuite name=" & Chr(34) & Chr(34) & ">"
+    Print #2, "<testsuite name=" & strQuote & strQuote & ">"
     Print #2, "    <details><![CDATA[]]></details>"
   Else
     Print #2, "<testcases>"
@@ -308,7 +310,7 @@ If tcColCount <> 0 Then
    
     If tsColCount <> 0 Then
       If arrTS(iRow, 1) <> vbNullString Then
-        xmlStr = "    <testsuite name=" & Chr(34) & arrTS(iRow, 1) & Chr(34) & ">"
+        xmlStr = "    <testsuite name=" & strQuote & arrTS(iRow, 1) & strQuote & ">"
         Print #2, xmlStr
         xmlStr = "        <details><![CDATA[" & arrTS(iRow, 2) & "]]></details>"
         Print #2, xmlStr
@@ -320,7 +322,7 @@ If tcColCount <> 0 Then
       If arrTc(iRow, iCol) <> vbNullString Then
         Select Case arrTc(0, iCol)
           Case "Name"
-            xmlStr = strTemp & "    <testcase name=" & Chr(34) & arrTc(iRow, iCol) & Chr(34) & ">"
+            xmlStr = strTemp & "    <testcase name=" & strQuote & arrTc(iRow, iCol) & strQuote & ">"
             Print #2, xmlStr
           Case "TC#"
             xmlStr = strTemp & "        <node_order><![CDATA[" & arrTc(iRow, iCol) & "]]></node_order>"
