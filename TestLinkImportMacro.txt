@@ -1,0 +1,419 @@
+Sub genReqnTcArr()
+Dim lRow, lCol As Long
+Dim duplicate As Boolean
+Dim oneCell, onesMerged, tsRange, tcRange, reqRange As Range
+Dim tsColCount, tcColCount, reqColCount, tcCFCount, arrRow, temp As Integer
+Dim arrReq(), arrTS(), arrTc(), arrReqTc(), arrTcCF() As Variant
+Dim strTemp, xmlStr, xlsFileName, xmlTcFileName, xmlReqFileName As String
+'Initializing Counts
+tsColCount = 0
+tcColCount = 0
+reqColCount = 0
+tcCFCount = 0
+'Obtaining File Names
+'Get the name of the excel file in which the requirements and testcases have been stored
+'and store it as the XML Requirments File name and XML Test Case File Name
+xlsFileName = ActiveWorkbook.FullName
+xmlStr = Left(xlsFileName, InStr(xlsFileName, "."))
+xmlReqFileName = Left(xlsFileName, Len(xlsFileName) - 4) & "_Req.xml"
+xmlTcFileName = Left(xlsFileName, Len(xlsFileName) - 4) & "_Tc.xml"
+'Get the last row and last column in the list
+lRow = lastRow()
+arrRow = lRow - 2
+lCol = lastColumn()
+'Count the columns for test suite, test cases and requirements and identify if any custom fields are present
+'Custom fields import for other than test cases is NOT supported in TestLink
+With Sheets(1)
+    For Each oneCell In Range(Cells(1, 1), Cells(1, lCol))
+        If oneCell.MergeCells Then
+            If oneCell.Text = "Test Suite" Then
+              Set tsRange = oneCell.MergeArea
+              tsColCount = oneCell.MergeArea.Count
+            ElseIf oneCell.Text = "Test Case" Then
+              Set tcRange = oneCell.MergeArea
+              tcColCount = oneCell.MergeArea.Count
+            ElseIf oneCell.Text = "Requirements" Then
+              Set reqRange = oneCell.MergeArea
+              reqColCount = oneCell.MergeArea.Count
+            End If
+        Else
+          If oneCell.Text = "Test Suite" Then
+              tsColCount = 1
+            ElseIf oneCell.Text = "Test Case" Then
+              tcColCount = 1
+            ElseIf oneCell.Text = "Requirements" Then
+              reqColCount = 1
+            End If
+        End If
+    Next oneCell
+End With
+'Define array sizes to store the contents
+If reqColCount <> 0 Then
+  ReDim Preserve arrReq(0 To arrRow, 1 To reqColCount) As Variant
+End If
+If tsColCount <> 0 And tcColCount <> 0 Then
+  ReDim Preserve arrTS(0 To arrRow, 1 To tsColCount) As Variant
+End If
+If tcColCount <> 0 Then
+  ReDim Preserve arrTc(0 To arrRow, 1 To tcColCount) As Variant
+End If
+If tcColCount <> 0 And reqColCount <> 0 Then
+  ReDim Preserve arrReqTc(0 To arrRow, 1 To reqColCount) As Variant
+End If
+'Collect the Requirements associated with Test Cases in an Array
+If reqColCount <> 0 And tcColCount <> 0 Then
+  With Sheets(1)
+    For Each oneCell In reqRange
+      Select Case oneCell.Offset(1, 0).Text
+      Case "Spec Title"
+        arrReqTc(0, 1) = "Spec Title"
+        For iRow = 2 To lRow - 1
+          arrReqTc(iRow - 1, 1) = oneCell.Offset(iRow, 0).Text
+        Next iRow
+      Case "Document ID"
+        arrReqTc(0, 2) = "Document ID"
+        For iRow = 2 To lRow - 1
+          arrReqTc(iRow - 1, 2) = oneCell.Offset(iRow, 0).Text
+        Next iRow
+      Case "Req Title"
+        arrReqTc(0, 3) = "Req Title"
+        For iRow = 2 To lRow - 1
+          arrReqTc(iRow - 1, 3) = oneCell.Offset(iRow, 0).Text
+        Next iRow
+      Case "Description"
+        arrReqTc(0, 4) = "Description"
+        For iRow = 2 To lRow - 1
+          arrReqTc(iRow - 1, 4) = oneCell.Offset(iRow, 0).Text
+        Next iRow
+      End Select
+    Next oneCell
+  End With
+End If
+'Collect the Test Suite in an Array
+If tsColCount <> 0 Then
+  With Sheets(1)
+    For Each oneCell In tsRange
+      Select Case oneCell.Offset(1, 0).Text
+      Case "Name"
+        arrTS(0, 1) = "Name"
+        For iRow = 2 To lRow - 1
+          arrTS(iRow - 1, 1) = oneCell.Offset(iRow, 0).Text
+        Next iRow
+      Case "Details"
+        arrTS(0, 2) = "Details"
+        For iRow = 2 To lRow - 1
+          arrTS(iRow - 1, 2) = oneCell.Offset(iRow, 0).Text
+        Next iRow
+      End Select
+    Next oneCell
+  End With
+End If
+'Collect the Test Cases in an Array
+If tcColCount <> 0 Then
+  With Sheets(1)
+    For Each oneCell In tcRange
+      Select Case oneCell.Offset(1, 0).Text
+      Case "TC#"
+        arrTc(0, 2) = "TC#"
+        For iRow = 2 To lRow - 1
+          arrTc(iRow - 1, 2) = oneCell.Offset(iRow, 0).Text
+        Next iRow
+      Case "Name"
+        arrTc(0, 1) = "Name"
+        For iRow = 2 To lRow - 1
+          arrTc(iRow - 1, 1) = oneCell.Offset(iRow, 0).Text
+        Next iRow
+      Case "Summary"
+        arrTc(0, 3) = "Summary"
+        For iRow = 2 To lRow - 1
+          arrTc(iRow - 1, 3) = oneCell.Offset(iRow, 0).Text
+        Next iRow
+      Case "Steps"
+        arrTc(0, 4) = "Steps"
+        For iRow = 2 To lRow - 1
+          arrTc(iRow - 1, 4) = oneCell.Offset(iRow, 0).Text
+        Next iRow
+      Case "Expected Results"
+        arrTc(0, 5) = "Expected Results"
+        For iRow = 2 To lRow - 1
+          arrTc(iRow - 1, 5) = oneCell.Offset(iRow, 0).Text
+        Next iRow
+      Case Else
+        'Count the number of custom fields to import
+        tcCFCount = tcCFCount + 1
+      End Select
+    Next oneCell
+  End With
+ 
+  ReDim Preserve arrTc(0 To arrRow, 1 To tcColCount - tcCFCount) As Variant
+  'Collect the Custom fields for Test Cases in an Array
+  If tcCFCount <> 0 Then
+ 
+    temp = arrRow * tcCFCount
+   
+    ReDim Preserve arrTcCF(0 To temp, 1 To 3) As Variant
+    arrTcCF(0, 1) = "TC#"
+    arrTcCF(0, 2) = "Name"
+    arrTcCF(0, 3) = "Value"
+ 
+    temp = 0
+ 
+    With Sheets(1)
+      For Each oneCell In tcRange
+        Select Case oneCell.Offset(1, 0).Text
+          Case "TC#"
+            For i = 1 To tcCFCount
+              For iRow = 2 To lRow - 1
+                arrTcCF(iRow - 1 + temp, 1) = oneCell.Offset(iRow, 0).Text
+              Next iRow
+              temp = temp + lRow - 2
+            Next i
+            temp = 0
+          Case "Name"
+            'Do Nothing
+          Case "Summary"
+            'Do Nothing
+          Case "Steps"
+            'Do Nothing
+          Case "Expected Results"
+            'Do Nothing
+          Case Else
+            For iRow = 2 To lRow - 1
+              arrTcCF(iRow - 1 + temp, 2) = oneCell.Offset(1, 0).Text
+              arrTcCF(iRow - 1 + temp, 3) = oneCell.Offset(iRow, 0).Text
+            Next iRow
+            temp = temp + lRow - 2
+          End Select
+      Next oneCell
+    End With
+  End If
+End If
+'Remove the duplicate listings of requirements and store the unique listings in an array
+If reqColCount <> 0 Then
+  If tcColCount <> 0 Then
+    temp = 0
+    For iRow = 0 To arrRow
+      duplicate = False
+      For jRow = 0 To iRow
+        If arrReqTc(iRow, 2) = arrReq(jRow, 2) Then
+          duplicate = True
+          Exit For
+        End If
+      Next jRow
+      If duplicate = False Then
+        arrReq(temp, 1) = arrReqTc(iRow, 1)
+        arrReq(temp, 2) = arrReqTc(iRow, 2)
+        If reqColCount > 2 Then
+          arrReq(temp, 3) = arrReqTc(iRow, 3)
+        End If
+        If reqColCount > 3 Then
+          arrReq(temp, 4) = arrReqTc(iRow, 4)
+        End If
+        temp = temp + 1
+      End If
+    Next iRow
+  Else
+    With Sheets(1)
+      For Each oneCell In reqRange
+        Select Case oneCell.Offset(1, 0).Text
+        Case "Spec Title"
+          arrReq(0, 1) = "Spec Title"
+          For iRow = 2 To lRow - 1
+            arrReq(iRow - 1, 1) = oneCell.Offset(iRow, 0).Text
+          Next iRow
+        Case "Document ID"
+          arrReq(0, 2) = "Document ID"
+          For iRow = 2 To lRow - 1
+            arrReq(iRow - 1, 2) = oneCell.Offset(iRow, 0).Text
+          Next iRow
+        Case "Req Title"
+          arrReq(0, 3) = "Req Title"
+          For iRow = 2 To lRow - 1
+            arrReq(iRow - 1, 3) = oneCell.Offset(iRow, 0).Text
+          Next iRow
+        Case "Description"
+          arrReq(0, 4) = "Description"
+          For iRow = 2 To lRow - 1
+            arrReq(iRow - 1, 4) = oneCell.Offset(iRow, 0).Text
+          Next iRow
+        End Select
+      Next oneCell
+  End With
+  End If
+End If
+'Create the Requirements XML file
+If reqColCount <> 0 Then
+  Open xmlReqFileName For Output As #1
+  Print #1, "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>"
+  Print #1, "<requirements>"
+ 
+  For iRow = 1 To arrRow
+    temp = 0
+    For iCol = 1 To reqColCount
+      If arrReq(iRow, iCol) <> "" Then
+        Select Case arrReq(0, iCol)
+          Case "Spec Title"
+            'Do Nothing
+          Case "Document ID"
+            temp = 1
+            Print #1, "    <requirement>"
+            xmlStr = "        <docid><![CDATA[" & arrReq(iRow, iCol) & "]]></docid>"
+            Print #1, xmlStr
+          Case "Req Title"
+            xmlStr = "        <title><![CDATA[" & arrReq(iRow, iCol) & "]]></title>"
+            Print #1, xmlStr
+          Case "Description"
+            xmlStr = "        <description><![CDATA[" & arrReq(iRow, iCol) & "]]></description>"
+            Print #1, xmlStr
+          Case Else
+            'Do Nothing
+          End Select
+        End If
+    Next iCol
+    If temp <> 0 Then
+      Print #1, "    </requirement>"
+    End If
+  Next iRow
+  Print #1, "</requirements>"
+  Close #1
+End If
+'Create the Test Cases XML file
+If tcColCount <> 0 Then
+  Open xmlTcFileName For Output As #2
+  Print #2, "<?xml version=" & Chr(34) & "1.0" & Chr(34) & " encoding=" & Chr(34) & "UTF-8" & Chr(34) & "?>"
+ 
+  If tsColCount <> 0 Then
+    Print #2, "<testsuite name=" & Chr(34) & Chr(34) & ">"
+    Print #2, "    <details><![CDATA[]]></details>"
+  Else
+    Print #2, "<testcases>"
+  End If
+ 
+  strTemp = ""
+  For iRow = 1 To arrRow
+ 
+    temp = 0
+   
+    If tsColCount <> 0 Then
+      If arrTS(iRow, 1) <> "" Then
+        xmlStr = "    <testsuite name=" & Chr(34) & arrTS(iRow, 1) & Chr(34) & ">"
+        Print #2, xmlStr
+        xmlStr = "        <details><![CDATA[" & arrTS(iRow, 2) & "]]></details>"
+        Print #2, xmlStr
+        strTemp = "    "
+      End If
+    End If
+   
+    For iCol = 1 To tcColCount - tcCFCount
+      If arrTc(iRow, iCol) <> "" Then
+        Select Case arrTc(0, iCol)
+          Case "Name"
+            xmlStr = strTemp & "    <testcase name=" & Chr(34) & arrTc(iRow, iCol) & Chr(34) & ">"
+            Print #2, xmlStr
+          Case "TC#"
+            xmlStr = strTemp & "        <node_order><![CDATA[" & arrTc(iRow, iCol) & "]]></node_order>"
+            Print #2, xmlStr
+          Case "Summary"
+            xmlStr = strTemp & "        <summary><![CDATA[" & arrTc(iRow, iCol) & "]]></summary>"
+            Print #2, xmlStr
+          Case "Steps"
+            xmlStr = strTemp & "        <steps><![CDATA[" & arrTc(iRow, iCol) & "]]></steps>"
+            Print #2, xmlStr
+          Case "Expected Results"
+            xmlStr = strTemp & "        <expectedresults><![CDATA[" & arrTc(iRow, iCol) & "]]></expectedresults>"
+            Print #2, xmlStr
+          End Select
+        End If
+    Next iCol
+   
+    'Get the custom fields if any
+    temp = 0
+    If tcCFCount <> 0 Then
+      For i = 1 To arrRow * tcCFCount
+        If arrTc(iRow, 2) = arrTcCF(i, 1) Then
+          If arrTcCF(i, 2) <> "" And arrTcCF(i, 3) <> "" Then
+            If temp = 0 Then
+              xmlStr = strTemp & "        <custom_fields>"
+              Print #2, xmlStr
+              temp = 1
+            End If
+            xmlStr = strTemp & "            <custom_field>"
+            Print #2, xmlStr
+            xmlStr = strTemp & "                <name>" & arrTcCF(i, 2) & "</name>"
+            Print #2, xmlStr
+            xmlStr = strTemp & "                <value>" & arrTcCF(i, 3) & "</value>"
+            Print #2, xmlStr
+            xmlStr = strTemp & "            </custom_field>"
+            Print #2, xmlStr
+          End If
+        End If
+      Next i
+      If temp = 1 Then
+        xmlStr = strTemp & "        </custom_fields>"
+        Print #2, xmlStr
+        temp = 0
+      End If
+    End If
+   
+    'Get the requirements associated with test cases
+    If reqColCount <> 0 Then
+      For i = 1 To arrRow
+        If arrTc(iRow, 2) = Trim(Str(i)) Then
+          If arrReqTc(i, 1) <> "" And arrReqTc(i, 2) <> "" Then
+            xmlStr = strTemp & "        <requirements>"
+            Print #2, xmlStr
+            xmlStr = strTemp & "            <requirement>"
+            Print #2, xmlStr
+            xmlStr = strTemp & "                <req_spec_title>" & arrReqTc(i, 1) & "</req_spec_title>"
+            Print #2, xmlStr
+            xmlStr = strTemp & "                <doc_id>" & arrReqTc(i, 2) & "</doc_id>"
+            Print #2, xmlStr
+            xmlStr = strTemp & "            </requirement>"
+            Print #2, xmlStr
+            xmlStr = strTemp & "        </requirements>"
+            Print #2, xmlStr
+          End If
+        End If
+      Next i
+    End If
+   
+    xmlStr = strTemp & "    </testcase>"
+    Print #2, xmlStr
+   
+    If tsColCount <> 0 Then
+      If iRow < arrRow Then
+        If arrTS(iRow + 1, 1) <> "" Then
+            Print #2, "    </testsuite>"
+        End If
+      Else
+        Print #2, "    </testsuite>"
+      End If
+    End If
+  Next iRow
+   
+  If tsColCount <> 0 Then
+    Print #2, "</testsuite>"
+  Else
+    Print #2, "</testcases>"
+  End If
+  Close #2
+End If
+End Sub
+Function lastRow() As Long
+  If WorksheetFunction.CountA(Cells) > 0 Then
+    'Search for any entry, by searching backwards by Rows.
+    lastRow = Cells.Find(What:="*", After:=[A1], _
+                         SearchOrder:=xlByRows, _
+                         SearchDirection:=xlPrevious).Row
+  End If
+End Function
+Function lastColumn() As Long
+   
+  If WorksheetFunction.CountA(Cells) > 0 Then
+ 
+    'Search for any entry, by searching backwards by Columns.
+    lastColumn = Cells.Find(What:="*", After:=[A1], _
+                            SearchOrder:=xlByColumns, _
+                            SearchDirection:=xlPrevious).Column
+  End If
+End Function
