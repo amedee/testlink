@@ -417,6 +417,7 @@ If tcColCount <> 0 Then
   Close #2
 End If
 End Sub
+
 Function lastRow() As Long
   If WorksheetFunction.CountA(Cells) > 0 Then
     'Search for any entry, by searching backwards by Rows.
@@ -425,6 +426,7 @@ Function lastRow() As Long
                          SearchDirection:=xlPrevious).Row
   End If
 End Function
+
 Function lastColumn() As Long
    
   If WorksheetFunction.CountA(Cells) > 0 Then
