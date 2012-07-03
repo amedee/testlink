@@ -1,5 +1,7 @@
+Option Explicit
+
 Sub genReqnTcArr()
-Dim lRow, lCol As Long
+Dim i, iRow, jRow, lRow, iCol, lCol As Long
 Dim duplicate As Boolean
 Dim oneCell, onesMerged, tsRange, tcRange, reqRange As Range
 Dim tsColCount, tcColCount, reqColCount, tcCFCount, arrRow, temp As Integer
