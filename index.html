@@ -1,103 +1,174 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Testlink by amedee</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<meta http-equiv="CONTENT-TYPE" content="text/html; charset=windows-1252"><title>Testlink by amedee</title>
 
-  </head>
-  <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/amedee/testlink">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/amedee/testlink/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/amedee/testlink/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="javascripts/respond.js"></script><!--[if lt IE 9]> <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script> <![endif]--><!--[if lt IE 8]> <link rel="stylesheet" href="stylesheets/ie.css"> <![endif]-->
+<style type="text/css">
+<!--
+H3.cjk { font-family: "SimSun" }
+H3.ctl { font-family: "Mangal" }
+-->
+</style>
+</head>
 
-    <div class="wrapper">
-
-      <section>
-        <div id="title">
-          <h1>Testlink</h1>
-          <p>Import script for TestLink</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/amedee">amedee</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></span>
-        </div>
-
-        <p>Original page: <a href="http://testlink-import.blogspot.com/2009/11/test-link-import.html">Test Link - Import</a></p>
-
-<p>Recent Update: 12 Jan 2012: Hi All,</p>
-
-<p>Thanks to those who helped other readers overcome their issues with this macro. I am now going to work on troubleshooting tips and also upgrading this macro. So, please keep following this blog and go through the comments (there are so many helpful comments) if you have any issues with this macro.</p>
-
-<p>Thanks.</p>
-
-<hr><p>I have created an excel template with macro to generate xml for importing requirements/test cases/test suites to testlink. This macro will generate two xml files - one for requirement (excel sheet name_Req.xml) and oen for test cases (excel sheet name_Tc.xml)</p>
-
-<p>Link to Excel Sheet:
-<a href="http://spreadsheets.google.com/ccc?key=0AjBCa6US6n8TdDF1Zk1hNGd1MGtHYnJhSVhTVUxoZFE&amp;hl=en">http://spreadsheets.google.com/ccc?key=0AjBCa6US6n8TdDF1Zk1hNGd1MGtHYnJhSVhTVUxoZFE&amp;hl=en</a></p>
-
-<p>Link to macro: (Saved as .txt. Please open the vba editor in excel, copy-paste the text and save)
-<a href="http://docs.google.com/Doc?docid=0ATBCa6US6n8TZGRodmh3Y2hfM2N4dmZrYmc1&amp;hl=en">http://docs.google.com/Doc?docid=0ATBCa6US6n8TZGRodmh3Y2hfM2N4dmZrYmc1&amp;hl=en</a></p>
-
-<p>Imports supported are as follows: (The table should start from Row 1, Column 1 as given)</p>
-
-<pre><code>Import Requirements:
-The Excel format to be used is given below.
-Spec Title: The Requirement Specification Title (This can be left empty, since this is only for mapping requirements with test cases. But, this column must be present.)
-Document ID: This is the unique requirement reference number. (Must be unique when importing requirements. But, when importing test cases or test suites with requirements, multiple test cases can be mapped with single requirement. For more details, please see other import formats below.
-Req Title: This is the title of the requirement. This is also unique. Each Document ID is mapped with a Req Title.
-Description: This is the detailed description (Scope) of the requirement.
-
-Import Test Cases:
-The Excel format to be used is given below.
-TC#: This is the Test Case Serial Number. It should start from 1 and be in sequence. This is also unique (even across test suites).
-Name: This is the Test Case Name. This is also unique for a test case.
-Summary: This is the Test Summary, a brief about the Test Scenario.
-Steps: This section is for writing the steps for execution of the test case.
-Expected Results: This is the results expected on executing the test case.
-
-Import Test Suites with Test Cases:
-The Excel format to be used is given below.
-Name: Name of the Test Suite. Test Cases must be grouped under each Test Suite exactly as given below. This is unique.
-Details: Details about the Test Suite.
-
-Import Test Cases with Requirements:
-The Excel format to be used is given below.
-
-Import Test Cases with Custom fields:
-The Excel format to be used is given below.
-
-Import Test Cases with Custom Fields and Requirements:
-The excel format to be used is given below.
-
-Import Test Suite with requirements:
-The excel format to be used is given below.
-Import Test Suite with Test Cases having Custom Fields:
-The excel format to be used is given below.
-Import Test Suite with Custom Fields and Requirements:
-The Excel format to be used is given below.
-</code></pre>
-
-<p>Feel free to use it and let me know your comments.</p>
-      </section>
-
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
-    
-  </body>
-</html>
+<body style="direction: ltr;">
+<div id="header" dir="ltr">
+<ul>
+<li>
+<p style="margin-bottom: 0cm;"><a href="https://github.com/amedee/testlink">View On GitHub</a>
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p style="margin-bottom: 0cm;"><a href="https://github.com/amedee/testlink/zipball/master">ZIP</a>
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p style="margin-bottom: 0cm;"><a href="https://github.com/amedee/testlink/tarball/master">TAR</a>
+</p>
+</li>
+</ul>
+<ul>
+<li>
+<p>DOWNLOADS </p>
+</li>
+</ul>
+</div>
+<div id="title" dir="ltr">
+<h1><!-- end header -->Testlink</h1>
+<p>Import script for TestLink</p>
+<hr>
+<p>Project maintained by <a href="https://github.com/amedee">amedee</a>
+Hosted on GitHub Pages — Theme by <a href="http://twitter.com/#%21/michigangraham">mattgraham</a>
+</p>
+</div>
+<h3 class="western">Original page: <a href="http://testlink-import.blogspot.com/2009/11/test-link-import.html">Test
+Link - Import</a></h3>
+<p>Recent Update: 12 Jan 2012: Hi All,<br>
+<br>
+Thanks to
+those who helped other readers overcome their issues with this macro.
+I am now going to work on troubleshooting tips and also upgrading
+this macro. So, please keep following this blog and go through the
+comments (there are so many helpful comments) if you have any issues
+with this macro.<br>
+<br>
+Thanks.<br>
+****************<br>
+<br>
+I have
+created an excel template with macro to generate xml for importing
+requirements/test cases/test suites to testlink. This macro will
+generate two xml files - one for requirement (excel sheet
+name_Req.xml) and oen for test cases (excel sheet name_Tc.xml)<br>
+<br>
+<strong>Link
+to Excel
+Sheet:
+</strong><a href="http://spreadsheets.google.com/ccc?key=0AjBCa6US6n8TdDF1Zk1hNGd1MGtHYnJhSVhTVUxoZFE&amp;hl=en">http://spreadsheets.google.com/ccc?key=0AjBCa6US6n8TdDF1Zk1hNGd1MGtHYnJhSVhTVUxoZFE&amp;hl=en</a><br>
+<br>
+<strong>Link
+to macro:</strong> (Saved as .txt. Please open the vba editor in
+excel, copy-paste the text and
+save)<br>
+<a href="http://docs.google.com/Doc?docid=0ATBCa6US6n8TZGRodmh3Y2hfM2N4dmZrYmc1&amp;hl=en">http://docs.google.com/Doc?docid=0ATBCa6US6n8TZGRodmh3Y2hfM2N4dmZrYmc1&amp;hl=en</a><br>
+<br>
+Imports
+supported are as follows: (The table should start from Row 1, Column
+1 as given)</p>
+<ul>
+<li>
+<p style="margin-bottom: 0cm;"> <strong>Import
+Requirements:
+</strong>The Excel format to be used is given below.<br>
+<strong>Spec Title:</strong> The Requirement
+Specification Title (This can be left empty, since this is only for
+mapping requirements with test cases. But, this column must be present.)<br>
+<strong>Document ID: </strong>This is the unique
+requirement reference number. (Must be unique when importing
+requirements. But, when importing test cases or test suites with
+requirements, multiple test cases can be mapped with single
+requirement. For more details, please see other import formats below.<br>
+<strong>Req Title:</strong> This is the title of the
+requirement. This is also unique. Each Document ID is mapped with a Req
+Title.<br>
+<strong>Description: </strong>This is the detailed
+description (Scope) of the requirement.<br>
+<img style="border: 0px solid ; width: 314px; height: 150px;" alt="" src="images/Req.JPG"> </p>
+</li>
+<li>
+<p> <strong>Import
+Test Cases:
+</strong>The Excel format to be used is given below.<br>
+<strong>TC#:</strong> This is the Test Case Serial
+Number. It should start from 1 and be in sequence. This is also unique
+(even across test suites).<br>
+<strong>Name: </strong>This is the Test Case Name.
+This is also unique for a test case.<br>
+<strong>Summary: </strong>This is the Test Summary, a
+brief about the Test Scenario.<br>
+<strong>Steps:</strong> This section is for writing the
+steps for execution of the test case.<br>
+<strong>Expected Results:</strong> This is the results
+expected on executing the test case.<br>
+<img style="width: 320px; height: 150px;" alt="" src="images/tc.JPG"></p>
+</li>
+<li>
+<p><strong>Import Test Suites with
+Test Cases:</strong><br>
+The Excel format to be used is given below.<br>
+<strong>Name: </strong>Name of the Test Suite. Test
+Cases must be grouped under each Test Suite exactly as given below.
+This is unique.<br>
+<strong>Details:</strong> Details about the Test Suite.<br>
+<img style="border: 0px solid ; width: 419px; height: 150px;" alt="" src="images/ts.JPG"></p>
+</li>
+<li>
+<p><strong>Import Test Cases with
+Requirements:
+</strong>The Excel format to be used is given below.<br>
+<img style="border: 0px solid ; width: 534px; height: 150px;" alt="" src="images/tcreq.JPG"></p>
+</li>
+<li>
+<p><strong>Import Test Cases with
+Custom fields:
+</strong>The Excel format to be used is given below.<br>
+<img style="border: 0px solid ; width: 531px; height: 150px;" alt="" src="images/tccf.JPG"></p>
+</li>
+<li>
+<p><strong>Import Test Cases with
+Custom Fields and Requirements:</strong><br>
+The Excel format to be used is given below.<br>
+<img style="border: 0px solid ; width: 810px; height: 150px;" alt="" src="images/tccfreq.JPG"></p>
+</li>
+<li>
+<p style="margin-bottom: 0cm;"><strong>Import
+Test Suite with requirements:
+</strong>The Excel format to be used is given below.<br>
+<img style="border: 0px solid ; width: 704px; height: 150px;" alt="" src="images/tsreq.JPG"></p>
+</li>
+<li>
+<p style="margin-bottom: 0cm;"><strong>Import
+Test Suite with Test Cases having Custom Fields:</strong><br>
+The Excel format to be used is given below.<br>
+<img style="border: 0px solid ; width: 625px; height: 150px;" alt="" src="images/tstccf.JPG"></p>
+</li>
+<li>
+<p><strong>Import Test Suite with
+Custom Fields and Requirements:
+</strong>The Excel format to be used is given below.<br>
+<img style="border: 0px solid ; width: 899px; height: 150px;" alt="" src="images/tstccfreq.JPG"></p>
+</li>
+</ul>
+<p style="margin-bottom: 0cm;"><br>
+Feel
+free to use it and let me know your comments.</p>
+<p>Posted
+by Gowri
+at <a href="http://testlink-import.blogspot.com/2009/11/test-link-import.html">8:58
+PM</a></p>
+</body></html>
