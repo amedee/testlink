@@ -10,6 +10,8 @@ Dim strTemp, xmlStr, xlsFileName, xmlTcFileName, xmlReqFileName As String
 Dim strQuote
 strQuote = Chr(34)
 
+InitializeReplacementStringsArray
+
 'Initializing Counts
 tsColCount = 0
 tcColCount = 0
