@@ -7,6 +7,16 @@ Public Sub InitializeReplacementStringsArray()
     ' that *almost* looks the same as a normal ASCII character, but not quite.
     ' XML import in TestLink *will* die horribly if the data isn't sanitized first.
     ' Also, please blame MS Office for the so-called "smart quotes" and similar nonsense.
+    '
+    ' LIMITATIONS:
+    ' * Double tilde (approximation sign) cannot be parsed by VBA. Under investigation.
+    '   Use Find&Replace manually in Excel!
+    '   Future implementation may use Application.WorksheetFunction.Substitute and
+    '   a range with replacement characters, perhaps this will yield a better result.
+    '   I can't be arsed to look into that now.
+    ' * Chr(176), Chr(186) (degrees symbol) can't be parsed by TestLink, so replacing the
+    '   degrees symbol with the word "degrees".
+    
     rsa(0, 0) = Chr(149)
     rsa(0, 1) = "*"
     rsa(1, 0) = Chr(150)
@@ -22,11 +32,15 @@ Public Sub InitializeReplacementStringsArray()
     rsa(6, 0) = Chr(160)
     rsa(6, 1) = " "
     rsa(7, 0) = Chr(176)
-    rsa(7, 1) = "degrees"   'chr(176) as well as chr(186) can't be parsed, so dropping degrees symbol
+    rsa(7, 1) = "degrees"
     rsa(8, 0) = Chr(186)
     rsa(8, 1) = "degrees"
     rsa(9, 0) = Chr(152)
     rsa(9, 1) = "~"
+    rsa(10, 0) = Chr(148)
+    rsa(10, 1) = """"
+    rsa(11, 0) = Chr(189)
+    rsa(11, 1) = "1/2"
 
 End Sub
 
