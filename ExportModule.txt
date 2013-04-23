@@ -1,12 +1,12 @@
 Option Explicit
 
 Sub genReqnTcArr()
-Dim i, iRow, jRow, lRow, iCol, lCol As Long
+Dim i As Long, iRow As Long, jRow As Long, lRow As Long, iCol As Long, lCol As Long
 Dim duplicate As Boolean
-Dim oneCell, onesMerged, tsRange, tcRange, reqRange As Range
-Dim tsColCount, tcColCount, reqColCount, tcCFCount, arrRow, temp As Integer
-Dim arrReq(), arrTS(), arrTc(), arrReqTc(), arrTcCF() As Variant
-Dim strTemp, xmlStr, xlsFileName, xmlTcFileName, xmlReqFileName As String
+Dim oneCell As Range, onesMerged As Range, tsRange As Range, tcRange As Range, reqRange As Range
+Dim tsColCount As Integer, tcColCount As Integer, reqColCount As Integer, tcCFCount As Integer, arrRow As Integer, temp As Integer
+Dim arrReq() As Variant, arrTS() As Variant, arrTc() As Variant, arrReqTc() As Variant, arrTcCF() As Variant
+Dim strTemp As String, xmlStr As String, xlsFileName As String, xmlTcFileName As String, xmlReqFileName As String
 
 InitializeReplacementStringsArray
 
@@ -17,7 +17,7 @@ reqColCount = 0
 tcCFCount = 0
 'Obtaining File Names
 'Get the name of the excel file in which the requirements and testcases have been stored
-'and store it as the XML Requirments File name and XML Test Case File Name
+'and store it as the XML Requirements File name and XML Test Case File Name
 xlsFileName = ActiveWorkbook.FullName
 xmlStr = Left(xlsFileName, InStr(xlsFileName, "."))
 xmlReqFileName = Left(xlsFileName, Len(xlsFileName) - 4) & "_Req.xml"
@@ -430,7 +430,6 @@ Function lastRow() As Long
 End Function
 
 Function lastColumn() As Long
-   
   If WorksheetFunction.CountA(Cells) > 0 Then
  
     'Search for any entry, by searching backwards by Columns.
