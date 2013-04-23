@@ -331,14 +331,14 @@ If tcColCount <> 0 Then
             xmlStr = strTemp & "        <node_order><![CDATA[" & arrTc(iRow, iCol) & "]]></node_order>"
             Print #2, xmlStr
           Case "Summary"
-            xmlStr = strTemp & "        <summary><![CDATA[" & arrTc(iRow, iCol) & "]]></summary>"
+            xmlStr = strTemp & "        <summary><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iCol)) & "]]></summary>"
             Print #2, xmlStr
           Case "Steps"
             xmlStr = strTemp & strTemp & strTemp & "<steps>" & vbNewLine & _
                      strTemp & strTemp & strTemp & strTemp & "<step>" & vbNewLine & _
                      strTemp & strTemp & strTemp & strTemp & strTemp & "<step_number><![CDATA[1]]></step_number>" & vbNewLine & _
-                     strTemp & strTemp & strTemp & strTemp & strTemp & "<actions><![CDATA[" & arrTc(iRow, iStepsColumn) & "]]></actions>" & vbNewLine & _
-                     strTemp & strTemp & strTemp & strTemp & strTemp & "<expectedresults><![CDATA[" & arrTc(iRow, iExpectedResultsColumn) & "]]></expectedresults>" & vbNewLine & _
+                     strTemp & strTemp & strTemp & strTemp & strTemp & "<actions><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iStepsColumn)) & "]]></actions>" & vbNewLine & _
+                     strTemp & strTemp & strTemp & strTemp & strTemp & "<expectedresults><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iExpectedResultsColumn)) & "]]></expectedresults>" & vbNewLine & _
                      strTemp & strTemp & strTemp & strTemp & "</step>" & vbNewLine & _
                      strTemp & strTemp & strTemp & "</steps>"
             Print #2, xmlStr

@@ -1,0 +1,37 @@
+Option Explicit
+
+Public rsa(0 To 100, 0 To 1) As String  ' ReplacementStringsArray, but shorter to reduce typing
+
+Public Sub InitializeReplacementStringsArray()
+    ' Be careful when editing this array. The first character is a special character
+    ' that *almost* looks the same as a normal ASCII character, but not quite.
+    ' XML import in TestLink *will* die horribly if the data isn't sanitized first.
+    ' Also, please blame MS Office for the so-called "smart quotes" and similar nonsense.
+    rsa(0, 0) = "•"
+    rsa(0, 1) = "*"
+    rsa(1, 0) = "–"
+    rsa(1, 1) = "-"
+    rsa(2, 0) = "’"
+    rsa(2, 1) = "'"
+    rsa(3, 0) = "‘"
+    rsa(3, 1) = "'"
+    rsa(4, 0) = "“"
+    rsa(4, 1) = """" 'double quote needs to be escaped this way
+    rsa(5, 0) = "…"
+    rsa(5, 1) = "..."
+    rsa(6, 0) = " "
+    rsa(6, 1) = " "
+    rsa(7, 0) = "°"
+    rsa(7, 1) = "degrees" 'chr(176) as well as chr(186) can't be parsed, so dropping degrees symbol
+
+End Sub
+
+Public Function SanitizeXMLdata(ByVal XMLdata As String) As String
+    SanitizeXMLdata = XMLdata
+
+    Dim i As Integer
+    For i = LBound(rsa, 1) To UBound(rsa, 1)
+        SanitizeXMLdata = Replace(SanitizeXMLdata, rsa(i, 0), rsa(i, 1))
+    Next i
+    
+End Function
