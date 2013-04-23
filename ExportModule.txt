@@ -6,7 +6,7 @@ Dim duplicate As Boolean
 Dim oneCell As Range, onesMerged As Range, tsRange As Range, tcRange As Range, reqRange As Range
 Dim tsColCount As Integer, tcColCount As Integer, reqColCount As Integer, tcCFCount As Integer, arrRow As Integer, temp As Integer
 Dim arrReq() As Variant, arrTS() As Variant, arrTc() As Variant, arrReqTc() As Variant, arrTcCF() As Variant
-Dim strTemp As String, xmlStr As String, xlsFileName As String, xmlTcFileName As String, xmlReqFileName As String
+Dim xmlStr As String, xlsFileName As String, xmlTcFileName As String, xmlReqFileName As String
 
 InitializeReplacementStringsArray
 
@@ -306,7 +306,6 @@ If tcColCount <> 0 Then
   Next iCol
   If iExpectedResultsColumn = 0 Then iExpectedResultsColumn = iStepsColumn
   
-  strTemp = vbNullString
   For iRow = 1 To arrRow
  
     temp = 0
@@ -317,7 +316,6 @@ If tcColCount <> 0 Then
         Print #2, xmlStr
         xmlStr = vbTab & vbTab & "<details><![CDATA[" & SanitizeXMLdata(arrTS(iRow, 2)) & "]]></details>"
         Print #2, xmlStr
-        strTemp = vbTab
       End If
     End If
    
@@ -325,22 +323,22 @@ If tcColCount <> 0 Then
       If arrTc(iRow, iCol) <> vbNullString Then
         Select Case arrTc(0, iCol)
           Case "Name"
-            xmlStr = strTemp & vbTab & "<testcase name=" & """" & SanitizeXMLdata(arrTc(iRow, iCol)) & """" & ">"
+            xmlStr = vbTab & vbTab & "<testcase name=" & """" & SanitizeXMLdata(arrTc(iRow, iCol)) & """" & ">"
             Print #2, xmlStr
           Case "TC#"
-            xmlStr = strTemp & vbTab & vbTab & "<node_order><![CDATA[" & arrTc(iRow, iCol) & "]]></node_order>"
+            xmlStr = vbTab & vbTab & vbTab & "<node_order><![CDATA[" & arrTc(iRow, iCol) & "]]></node_order>"
             Print #2, xmlStr
           Case "Summary"
-            xmlStr = strTemp & vbTab & vbTab & "<summary><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iCol)) & "]]></summary>"
+            xmlStr = vbTab & vbTab & vbTab & "<summary><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iCol)) & "]]></summary>"
             Print #2, xmlStr
           Case "Steps"
-            xmlStr = strTemp & strTemp & strTemp & "<steps>" & vbNewLine & _
-                     strTemp & strTemp & strTemp & strTemp & "<step>" & vbNewLine & _
-                     strTemp & strTemp & strTemp & strTemp & strTemp & "<step_number><![CDATA[1]]></step_number>" & vbNewLine & _
-                     strTemp & strTemp & strTemp & strTemp & strTemp & "<actions><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iStepsColumn)) & "]]></actions>" & vbNewLine & _
-                     strTemp & strTemp & strTemp & strTemp & strTemp & "<expectedresults><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iExpectedResultsColumn)) & "]]></expectedresults>" & vbNewLine & _
-                     strTemp & strTemp & strTemp & strTemp & "</step>" & vbNewLine & _
-                     strTemp & strTemp & strTemp & "</steps>"
+            xmlStr = vbTab & vbTab & vbTab & "<steps>" & vbNewLine & _
+                     vbTab & vbTab & vbTab & vbTab & "<step>" & vbNewLine & _
+                     vbTab & vbTab & vbTab & vbTab & vbTab & "<step_number><![CDATA[1]]></step_number>" & vbNewLine & _
+                     vbTab & vbTab & vbTab & vbTab & vbTab & "<actions><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iStepsColumn)) & "]]></actions>" & vbNewLine & _
+                     vbTab & vbTab & vbTab & vbTab & vbTab & "<expectedresults><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iExpectedResultsColumn)) & "]]></expectedresults>" & vbNewLine & _
+                     vbTab & vbTab & vbTab & vbTab & "</step>" & vbNewLine & _
+                     vbTab & vbTab & vbTab & "</steps>"
             Print #2, xmlStr
           End Select
         End If
@@ -353,23 +351,23 @@ If tcColCount <> 0 Then
         If arrTc(iRow, 2) = arrTcCF(i, 1) Then
           If arrTcCF(i, 2) <> vbNullString And arrTcCF(i, 3) <> vbNullString Then
             If temp = 0 Then
-              xmlStr = strTemp & vbTab & vbTab & "<custom_fields>"
+              xmlStr = vbTab & vbTab & vbTab & "<custom_fields>"
               Print #2, xmlStr
               temp = 1
             End If
-            xmlStr = strTemp & vbTab & vbTab & vbTab & "<custom_field>"
+            xmlStr = vbTab & vbTab & vbTab & vbTab & "<custom_field>"
             Print #2, xmlStr
-            xmlStr = strTemp & vbTab & vbTab & vbTab & vbTab & "<name>" & arrTcCF(i, 2) & "</name>"
+            xmlStr = vbTab & vbTab & vbTab & vbTab & vbTab & "<name>" & arrTcCF(i, 2) & "</name>"
             Print #2, xmlStr
-            xmlStr = strTemp & vbTab & vbTab & vbTab & vbTab & "<value>" & arrTcCF(i, 3) & "</value>"
+            xmlStr = vbTab & vbTab & vbTab & vbTab & vbTab & "<value>" & arrTcCF(i, 3) & "</value>"
             Print #2, xmlStr
-            xmlStr = strTemp & vbTab & vbTab & vbTab & "</custom_field>"
+            xmlStr = vbTab & vbTab & vbTab & vbTab & "</custom_field>"
             Print #2, xmlStr
           End If
         End If
       Next i
       If temp = 1 Then
-        xmlStr = strTemp & vbTab & vbTab & "</custom_fields>"
+        xmlStr = vbTab & vbTab & vbTab & "</custom_fields>"
         Print #2, xmlStr
         temp = 0
       End If
@@ -380,24 +378,24 @@ If tcColCount <> 0 Then
       For i = 1 To arrRow
         If arrTc(iRow, 2) = Trim(Str(i)) Then
           If arrReqTc(i, 1) <> vbNullString And arrReqTc(i, 2) <> vbNullString Then
-            xmlStr = strTemp & vbTab & vbTab & "<requirements>"
+            xmlStr = vbTab & vbTab & vbTab & "<requirements>"
             Print #2, xmlStr
-            xmlStr = strTemp & vbTab & vbTab & vbTab & "<requirement>"
+            xmlStr = vbTab & vbTab & vbTab & vbTab & "<requirement>"
             Print #2, xmlStr
-            xmlStr = strTemp & vbTab & vbTab & vbTab & vbTab & "<req_spec_title>" & arrReqTc(i, 1) & "</req_spec_title>"
+            xmlStr = vbTab & vbTab & vbTab & vbTab & vbTab & "<req_spec_title>" & arrReqTc(i, 1) & "</req_spec_title>"
             Print #2, xmlStr
-            xmlStr = strTemp & vbTab & vbTab & vbTab & vbTab & "<doc_id>" & arrReqTc(i, 2) & "</doc_id>"
+            xmlStr = vbTab & vbTab & vbTab & vbTab & vbTab & "<doc_id>" & arrReqTc(i, 2) & "</doc_id>"
             Print #2, xmlStr
-            xmlStr = strTemp & vbTab & vbTab & vbTab & "</requirement>"
+            xmlStr = vbTab & vbTab & vbTab & vbTab & "</requirement>"
             Print #2, xmlStr
-            xmlStr = strTemp & vbTab & vbTab & "</requirements>"
+            xmlStr = vbTab & vbTab & vbTab & "</requirements>"
             Print #2, xmlStr
           End If
         End If
       Next i
     End If
    
-    xmlStr = strTemp & vbTab & "</testcase>"
+    xmlStr = vbTab & vbTab & "</testcase>"
     Print #2, xmlStr
    
     If tsColCount <> 0 Then
