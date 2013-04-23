@@ -3,17 +3,16 @@ Option Explicit
 Public rsa(0 To 100, 0 To 1) As String  ' ReplacementStringsArray, but shorter to reduce typing
 
 Public Sub InitializeReplacementStringsArray()
-    ' Be careful when editing this array. The first character is a special character
+    ' Be careful when editing this array. The first element of each pair is a special character
     ' that *almost* looks the same as a normal ASCII character, but not quite.
     ' XML import in TestLink *will* die horribly if the data isn't sanitized first.
-    ' Also, please blame MS Office for the so-called "smart quotes" and similar nonsense.
+    ' Also, please blame MS Office for the so-called "smart quotes" and similar shenanigans.
     '
     ' LIMITATIONS:
     ' * Double tilde (approximation sign) cannot be parsed by VBA. Under investigation.
     '   Use Find&Replace manually in Excel!
     '   Future implementation may use Application.WorksheetFunction.Substitute and
     '   a range with replacement characters, perhaps this will yield a better result.
-    '   I can't be arsed to look into that now.
     ' * Chr(176), Chr(186) (degrees symbol) can't be parsed by TestLink, so replacing the
     '   degrees symbol with the word "degrees".
     
