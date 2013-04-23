@@ -265,10 +265,10 @@ If reqColCount <> 0 Then
             xmlStr = "        <docid><![CDATA[" & arrReq(iRow, iCol) & "]]></docid>"
             Print #1, xmlStr
           Case "Req Title"
-            xmlStr = "        <title><![CDATA[" & arrReq(iRow, iCol) & "]]></title>"
+            xmlStr = "        <title><![CDATA[" & SanitizeXMLdata(arrReq(iRow, iCol)) & "]]></title>"
             Print #1, xmlStr
           Case "Description"
-            xmlStr = "        <description><![CDATA[" & arrReq(iRow, iCol) & "]]></description>"
+            xmlStr = "        <description><![CDATA[" & SanitizeXMLdata(arrReq(iRow, iCol)) & "]]></description>"
             Print #1, xmlStr
           Case Else
             'Do Nothing
@@ -313,9 +313,9 @@ If tcColCount <> 0 Then
    
     If tsColCount <> 0 Then
       If arrTS(iRow, 1) <> vbNullString Then
-        xmlStr = "    <testsuite name=" & """" & arrTS(iRow, 1) & """" & ">"
+        xmlStr = "    <testsuite name=" & """" & SanitizeXMLdata(arrTS(iRow, 1)) & """" & ">"
         Print #2, xmlStr
-        xmlStr = "        <details><![CDATA[" & arrTS(iRow, 2) & "]]></details>"
+        xmlStr = "        <details><![CDATA[" & SanitizeXMLdata(arrTS(iRow, 2)) & "]]></details>"
         Print #2, xmlStr
         strTemp = "    "
       End If
@@ -325,20 +325,20 @@ If tcColCount <> 0 Then
       If arrTc(iRow, iCol) <> vbNullString Then
         Select Case arrTc(0, iCol)
           Case "Name"
-            xmlStr = strTemp & "    <testcase name=" & """" & arrTc(iRow, iCol) & """" & ">"
+            xmlStr = strTemp & "    <testcase name=" & """" & SanitizeXMLdata(arrTc(iRow, iCol)) & """" & ">"
             Print #2, xmlStr
           Case "TC#"
             xmlStr = strTemp & "        <node_order><![CDATA[" & arrTc(iRow, iCol) & "]]></node_order>"
             Print #2, xmlStr
           Case "Summary"
-            xmlStr = strTemp & "        <summary><![CDATA[" & arrTc(iRow, iCol) & "]]></summary>"
+            xmlStr = strTemp & "        <summary><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iCol)) & "]]></summary>"
             Print #2, xmlStr
           Case "Steps"
             xmlStr = strTemp & strTemp & strTemp & "<steps>" & vbNewLine & _
                      strTemp & strTemp & strTemp & strTemp & "<step>" & vbNewLine & _
                      strTemp & strTemp & strTemp & strTemp & strTemp & "<step_number><![CDATA[1]]></step_number>" & vbNewLine & _
-                     strTemp & strTemp & strTemp & strTemp & strTemp & "<actions><![CDATA[" & arrTc(iRow, iStepsColumn) & "]]></actions>" & vbNewLine & _
-                     strTemp & strTemp & strTemp & strTemp & strTemp & "<expectedresults><![CDATA[" & arrTc(iRow, iExpectedResultsColumn) & "]]></expectedresults>" & vbNewLine & _
+                     strTemp & strTemp & strTemp & strTemp & strTemp & "<actions><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iStepsColumn)) & "]]></actions>" & vbNewLine & _
+                     strTemp & strTemp & strTemp & strTemp & strTemp & "<expectedresults><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iExpectedResultsColumn)) & "]]></expectedresults>" & vbNewLine & _
                      strTemp & strTemp & strTemp & strTemp & "</step>" & vbNewLine & _
                      strTemp & strTemp & strTemp & "</steps>"
             Print #2, xmlStr
