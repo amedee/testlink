@@ -44,6 +44,8 @@ Public Sub InitializeReplacementStringsArray()
     rsa(12, 1) = "-"
     rsa(13, 0) = Chr(188)
     rsa(13, 1) = "1/4"
+    rsa(14, 0) = Chr(183)
+    rsa(14, 1) = "*"
 
 End Sub
 
