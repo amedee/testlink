@@ -1,9 +1,10 @@
 Option Explicit
 
-Public rsa(0 To 100, 0 To 1) As String  ' ReplacementStringsArray, but shorter to reduce typing
+Public rsaCDATA(0 To 100, 0 To 1) As String  ' ReplacementStringsArray, but shorter to reduce typing
+Public rsaNAME(0 To 100, 0 To 1) As String
 
-Public Sub InitializeReplacementStringsArray()
-    ' Be careful when editing this array. The first element of each pair is a special character
+Public Sub InitializeReplacementStringsArrays()
+    ' Be careful when editing these arrays. The first element of each pair is a special character
     ' that *almost* looks the same as a normal ASCII character, but not quite.
     ' XML import in TestLink *will* die horribly if the data isn't sanitized first.
     ' Also, please blame MS Office for the so-called "smart quotes" and similar shenanigans.
@@ -16,36 +17,49 @@ Public Sub InitializeReplacementStringsArray()
     ' * Chr(176), Chr(186) (degrees symbol) can't be parsed by TestLink, so replacing the
     '   degrees symbol with the word "degrees".
     
-    rsa(0, 0) = Chr(149)
-    rsa(0, 1) = "*"
-    rsa(1, 0) = Chr(150)
-    rsa(1, 1) = "-"
-    rsa(2, 0) = Chr(146)
-    rsa(2, 1) = "'"
-    rsa(3, 0) = Chr(145)
-    rsa(3, 1) = "'"
-    rsa(4, 0) = Chr(147)
-    rsa(4, 1) = """"        'double quote needs to be escaped this way
-    rsa(5, 0) = Chr(133)
-    rsa(5, 1) = "..."
-    rsa(6, 0) = Chr(160)
-    rsa(6, 1) = " "
-    rsa(7, 0) = Chr(176)
-    rsa(7, 1) = "degrees"
-    rsa(8, 0) = Chr(186)
-    rsa(8, 1) = "degrees"
-    rsa(9, 0) = Chr(152)
-    rsa(9, 1) = "~"
-    rsa(10, 0) = Chr(148)
-    rsa(10, 1) = """"
-    rsa(11, 0) = Chr(189)
-    rsa(11, 1) = "1/2"
-    rsa(12, 0) = Chr(172)
-    rsa(12, 1) = "-"
-    rsa(13, 0) = Chr(188)
-    rsa(13, 1) = "1/4"
-    rsa(14, 0) = Chr(183)
-    rsa(14, 1) = "*"
+    ' First array, rsaCDATA, is for sanitizing XML CDATA, as the same suggests.
+    rsaCDATA(0, 0) = Chr(149)
+    rsaCDATA(0, 1) = "*"
+    rsaCDATA(1, 0) = Chr(150)
+    rsaCDATA(1, 1) = "-"
+    rsaCDATA(2, 0) = Chr(146)
+    rsaCDATA(2, 1) = "'"
+    rsaCDATA(3, 0) = Chr(145)
+    rsaCDATA(3, 1) = "'"
+    rsaCDATA(4, 0) = Chr(147)
+    rsaCDATA(4, 1) = """"        'double quote needs to be escaped this way
+    rsaCDATA(5, 0) = Chr(133)
+    rsaCDATA(5, 1) = "..."
+    rsaCDATA(6, 0) = Chr(160)
+    rsaCDATA(6, 1) = " "
+    rsaCDATA(7, 0) = Chr(176)
+    rsaCDATA(7, 1) = "degrees"
+    rsaCDATA(8, 0) = Chr(186)
+    rsaCDATA(8, 1) = "degrees"
+    rsaCDATA(9, 0) = Chr(152)
+    rsaCDATA(9, 1) = "~"
+    rsaCDATA(10, 0) = Chr(148)
+    rsaCDATA(10, 1) = """"
+    rsaCDATA(11, 0) = Chr(189)
+    rsaCDATA(11, 1) = "1/2"
+    rsaCDATA(12, 0) = Chr(172)
+    rsaCDATA(12, 1) = "-"
+    rsaCDATA(13, 0) = Chr(188)
+    rsaCDATA(13, 1) = "1/4"
+    rsaCDATA(14, 0) = Chr(183)
+    rsaCDATA(14, 1) = "*"
+    
+    ' Second array, rsaNAME, is for sanitizing the XML name attribute.
+    ' XML attributes are more strict about what can go in them.
+    
+    rsaNAME(0, 0) = Chr(34)
+    rsaNAME(0, 1) = "'"
+    rsaNAME(1, 0) = Chr(60)
+    rsaNAME(1, 1) = "["
+    rsaNAME(2, 0) = Chr(62)
+    rsaNAME(2, 1) = "]"
+    rsaNAME(3, 0) = Chr(38)
+    rsaNAME(3, 1) = "and"
 
 End Sub
 
@@ -53,8 +67,19 @@ Public Function SanitizeXMLdata(ByVal XMLdata As String) As String
     SanitizeXMLdata = XMLdata
 
     Dim i As Integer
-    For i = LBound(rsa, 1) To UBound(rsa, 1)
-        SanitizeXMLdata = Replace(SanitizeXMLdata, rsa(i, 0), rsa(i, 1))
+    For i = LBound(rsaCDATA, 1) To UBound(rsaCDATA, 1)
+        SanitizeXMLdata = Replace(SanitizeXMLdata, rsaCDATA(i, 0), rsaCDATA(i, 1))
     Next i
-    
+End Function
+
+Public Function SanitizeXMLname(ByVal XMLdata As String) As String
+    ' First step: clean up according to less strict CDATA rules
+    SanitizeXMLname = SanitizeXMLdata(XMLdata)
+
+    ' Second step: clean up according to strict XML attribute rules
+    ' TODO: I see duplicate code here...
+    Dim i As Integer
+    For i = LBound(rsaNAME, 1) To UBound(rsaNAME, 1)
+        SanitizeXMLname = Replace(SanitizeXMLname, rsaNAME(i, 0), rsaNAME(i, 1))
+    Next i
 End Function

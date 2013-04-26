@@ -8,7 +8,7 @@ Dim tsColCount As Integer, tcColCount As Integer, reqColCount As Integer, tcCFCo
 Dim arrReq() As Variant, arrTS() As Variant, arrTc() As Variant, arrReqTc() As Variant, arrTcCF() As Variant
 Dim xmlStr As String, xlsFileName As String, xmlTcFileName As String, xmlReqFileName As String
 
-InitializeReplacementStringsArray
+InitializeReplacementStringsArrays
 
 'Initializing Counts
 tsColCount = 0
@@ -312,7 +312,7 @@ If tcColCount <> 0 Then
    
     If tsColCount <> 0 Then
       If arrTS(iRow, 1) <> vbNullString Then
-        xmlStr = vbTab & "<testsuite name=" & """" & SanitizeXMLdata(arrTS(iRow, 1)) & """" & ">"
+        xmlStr = vbTab & "<testsuite name=" & """" & SanitizeXMLname(arrTS(iRow, 1)) & """" & ">"
         Print #2, xmlStr
         xmlStr = vbTab & vbTab & "<details><![CDATA[" & SanitizeXMLdata(arrTS(iRow, 2)) & "]]></details>"
         Print #2, xmlStr
@@ -323,7 +323,7 @@ If tcColCount <> 0 Then
       If arrTc(iRow, iCol) <> vbNullString Then
         Select Case arrTc(0, iCol)
           Case "Name"
-            xmlStr = vbTab & vbTab & "<testcase name=" & """" & SanitizeXMLdata(arrTc(iRow, iCol)) & """" & ">"
+            xmlStr = vbTab & vbTab & "<testcase name=" & """" & SanitizeXMLname(arrTc(iRow, iCol)) & """" & ">"
             Print #2, xmlStr
           Case "TC#"
             xmlStr = vbTab & vbTab & vbTab & "<node_order><![CDATA[" & arrTc(iRow, iCol) & "]]></node_order>"
@@ -429,7 +429,6 @@ End Function
 
 Function lastColumn() As Long
   If WorksheetFunction.CountA(Cells) > 0 Then
- 
     'Search for any entry, by searching backwards by Columns.
     lastColumn = Cells.Find(What:="*", After:=[A1], _
                             SearchOrder:=xlByColumns, _
