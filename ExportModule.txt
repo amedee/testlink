@@ -321,7 +321,6 @@ If tcColCount <> 0 Then
     End If
    
     For iCol = 1 To tcColCount - tcCFCount
-      If arrTc(iRow, iCol) <> vbNullString Then
         Select Case arrTc(0, iCol)
           Case "Name"
             xmlStr = "<testcase name=""" & SanitizeXMLname(arrTc(iRow, iCol)) & """>"
@@ -342,7 +341,6 @@ If tcColCount <> 0 Then
                         "</steps>"
             Print #2, xmlStr
           End Select
-        End If
     Next iCol
    
     'Get the custom fields if any
