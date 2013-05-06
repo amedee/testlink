@@ -250,7 +250,7 @@ End If
 'Create the Requirements XML file
 If reqColCount <> 0 Then
   Open xmlReqFileName For Output As #1
-  Print #1, "<?xml version=" & """" & "1.0" & """" & " encoding=" & """" & "UTF-8" & """" & "?>"
+  Print #1, "<?xml version=""1.0"" encoding=""UTF-8""?>"
   Print #1, "<requirements>"
  
   For iRow = 1 To arrRow
@@ -286,10 +286,10 @@ End If
 'Create the Test Cases XML file
 If tcColCount <> 0 Then
   Open xmlTcFileName For Output As #2
-  Print #2, "<?xml version=" & """" & "1.0" & """" & " encoding=" & """" & "UTF-8" & """" & "?>"
+  Print #2, "<?xml version=""1.0"" encoding=""UTF-8""?>"
  
   If tsColCount <> 0 Then
-    Print #2, "<testsuite name=" & """" & """" & ">"
+    Print #2, "<testsuite name="""">"
     Print #2, vbTab & "<details><![CDATA[]]></details>"
   Else
     Print #2, "<testcases>"
@@ -313,7 +313,7 @@ If tcColCount <> 0 Then
    
     If tsColCount <> 0 Then
       If arrTS(iRow, 1) <> vbNullString Then
-        xmlStr = vbTab & "<testsuite name=" & """" & SanitizeXMLname(arrTS(iRow, 1)) & """" & ">"
+        xmlStr = vbTab & "<testsuite name=""" & SanitizeXMLname(arrTS(iRow, 1)) & """>"
         Print #2, xmlStr
         xmlStr = vbTab & vbTab & "<details><![CDATA[" & SanitizeXMLdata(arrTS(iRow, 2)) & "]]></details>"
         Print #2, xmlStr
@@ -324,7 +324,7 @@ If tcColCount <> 0 Then
       If arrTc(iRow, iCol) <> vbNullString Then
         Select Case arrTc(0, iCol)
           Case "Name"
-            xmlStr = vbTab & vbTab & "<testcase name=" & """" & SanitizeXMLname(arrTc(iRow, iCol)) & """" & ">"
+            xmlStr = vbTab & vbTab & "<testcase name=""" & SanitizeXMLname(arrTc(iRow, iCol)) & """>"
             Print #2, xmlStr
           Case "TC#"
             xmlStr = vbTab & vbTab & vbTab & "<node_order><![CDATA[" & arrTc(iRow, iCol) & "]]></node_order>"
