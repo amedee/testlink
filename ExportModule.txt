@@ -262,14 +262,14 @@ If reqColCount <> 0 Then
             'Do Nothing
           Case "Document ID"
             temp = 1
-            Print #1, vbTab & "<requirement>"
-            xmlStr = vbTab & vbTab & "<docid><![CDATA[" & arrReq(iRow, iCol) & "]]></docid>"
+            Print #1, "<requirement>"
+            xmlStr = "<docid><![CDATA[" & arrReq(iRow, iCol) & "]]></docid>"
             Print #1, xmlStr
           Case "Req Title"
-            xmlStr = vbTab & vbTab & "<title><![CDATA[" & SanitizeXMLdata(arrReq(iRow, iCol)) & "]]></title>"
+            xmlStr = "<title><![CDATA[" & SanitizeXMLdata(arrReq(iRow, iCol)) & "]]></title>"
             Print #1, xmlStr
           Case "Description"
-            xmlStr = vbTab & vbTab & "<description><![CDATA[" & SanitizeXMLdata(arrReq(iRow, iCol)) & "]]></description>"
+            xmlStr = "<description><![CDATA[" & SanitizeXMLdata(arrReq(iRow, iCol)) & "]]></description>"
             Print #1, xmlStr
           Case Else
             'Do Nothing
@@ -277,7 +277,7 @@ If reqColCount <> 0 Then
         End If
     Next iCol
     If temp <> 0 Then
-      Print #1, vbTab & "</requirement>"
+      Print #1, "</requirement>"
     End If
   Next iRow
   Print #1, "</requirements>"
@@ -290,7 +290,7 @@ If tcColCount <> 0 Then
  
   If tsColCount <> 0 Then
     Print #2, "<testsuite name="""">"
-    Print #2, vbTab & "<details><![CDATA[]]></details>"
+    Print #2, "<details><![CDATA[]]></details>"
   Else
     Print #2, "<testcases>"
   End If
@@ -313,9 +313,9 @@ If tcColCount <> 0 Then
    
     If tsColCount <> 0 Then
       If arrTS(iRow, 1) <> vbNullString Then
-        xmlStr = vbTab & "<testsuite name=""" & SanitizeXMLname(arrTS(iRow, 1)) & """>"
+        xmlStr = "<testsuite name=""" & SanitizeXMLname(arrTS(iRow, 1)) & """>"
         Print #2, xmlStr
-        xmlStr = vbTab & vbTab & "<details><![CDATA[" & SanitizeXMLdata(arrTS(iRow, 2)) & "]]></details>"
+        xmlStr = "<details><![CDATA[" & SanitizeXMLdata(arrTS(iRow, 2)) & "]]></details>"
         Print #2, xmlStr
       End If
     End If
@@ -324,22 +324,22 @@ If tcColCount <> 0 Then
       If arrTc(iRow, iCol) <> vbNullString Then
         Select Case arrTc(0, iCol)
           Case "Name"
-            xmlStr = vbTab & vbTab & "<testcase name=""" & SanitizeXMLname(arrTc(iRow, iCol)) & """>"
+            xmlStr = "<testcase name=""" & SanitizeXMLname(arrTc(iRow, iCol)) & """>"
             Print #2, xmlStr
           Case "TC#"
-            xmlStr = vbTab & vbTab & vbTab & "<node_order><![CDATA[" & arrTc(iRow, iCol) & "]]></node_order>"
+            xmlStr = "<node_order><![CDATA[" & arrTc(iRow, iCol) & "]]></node_order>"
             Print #2, xmlStr
           Case "Summary"
-            xmlStr = vbTab & vbTab & vbTab & "<summary><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iCol)) & "]]></summary>"
+            xmlStr = "<summary><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iCol)) & "]]></summary>"
             Print #2, xmlStr
           Case "Steps"
-            xmlStr = vbTab & vbTab & vbTab & "<steps>" & vbNewLine & _
-                     vbTab & vbTab & vbTab & vbTab & "<step>" & vbNewLine & _
-                     vbTab & vbTab & vbTab & vbTab & vbTab & "<step_number><![CDATA[1]]></step_number>" & vbNewLine & _
-                     vbTab & vbTab & vbTab & vbTab & vbTab & "<actions><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iStepsColumn)) & "]]></actions>" & vbNewLine & _
-                     vbTab & vbTab & vbTab & vbTab & vbTab & "<expectedresults><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iExpectedResultsColumn)) & "]]></expectedresults>" & vbNewLine & _
-                     vbTab & vbTab & vbTab & vbTab & "</step>" & vbNewLine & _
-                     vbTab & vbTab & vbTab & "</steps>"
+            xmlStr = "<steps>" & vbNewLine & _
+                         "<step>" & vbNewLine & _
+                          "<step_number><![CDATA[1]]></step_number>" & vbNewLine & _
+                          "<actions><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iStepsColumn)) & "]]></actions>" & vbNewLine & _
+                          "<expectedresults><![CDATA[" & SanitizeXMLdata(arrTc(iRow, iExpectedResultsColumn)) & "]]></expectedresults>" & vbNewLine & _
+                         "</step>" & vbNewLine & _
+                        "</steps>"
             Print #2, xmlStr
           End Select
         End If
@@ -352,23 +352,23 @@ If tcColCount <> 0 Then
         If arrTc(iRow, 2) = arrTcCF(i, 1) Then
           If arrTcCF(i, 2) <> vbNullString And arrTcCF(i, 3) <> vbNullString Then
             If temp = 0 Then
-              xmlStr = vbTab & vbTab & vbTab & "<custom_fields>"
+              xmlStr = "<custom_fields>"
               Print #2, xmlStr
               temp = 1
             End If
-            xmlStr = vbTab & vbTab & vbTab & vbTab & "<custom_field>"
+            xmlStr = "<custom_field>"
             Print #2, xmlStr
-            xmlStr = vbTab & vbTab & vbTab & vbTab & vbTab & "<name>" & arrTcCF(i, 2) & "</name>"
+            xmlStr = "<name>" & arrTcCF(i, 2) & "</name>"
             Print #2, xmlStr
-            xmlStr = vbTab & vbTab & vbTab & vbTab & vbTab & "<value>" & arrTcCF(i, 3) & "</value>"
+            xmlStr = "<value>" & arrTcCF(i, 3) & "</value>"
             Print #2, xmlStr
-            xmlStr = vbTab & vbTab & vbTab & vbTab & "</custom_field>"
+            xmlStr = "</custom_field>"
             Print #2, xmlStr
           End If
         End If
       Next i
       If temp = 1 Then
-        xmlStr = vbTab & vbTab & vbTab & "</custom_fields>"
+        xmlStr = "</custom_fields>"
         Print #2, xmlStr
         temp = 0
       End If
@@ -379,33 +379,33 @@ If tcColCount <> 0 Then
       For i = 1 To arrRow
         If arrTc(iRow, 2) = Trim(Str(i)) Then
           If arrReqTc(i, 1) <> vbNullString And arrReqTc(i, 2) <> vbNullString Then
-            xmlStr = vbTab & vbTab & vbTab & "<requirements>"
+            xmlStr = "<requirements>"
             Print #2, xmlStr
-            xmlStr = vbTab & vbTab & vbTab & vbTab & "<requirement>"
+            xmlStr = "<requirement>"
             Print #2, xmlStr
-            xmlStr = vbTab & vbTab & vbTab & vbTab & vbTab & "<req_spec_title>" & arrReqTc(i, 1) & "</req_spec_title>"
+            xmlStr = "<req_spec_title>" & arrReqTc(i, 1) & "</req_spec_title>"
             Print #2, xmlStr
-            xmlStr = vbTab & vbTab & vbTab & vbTab & vbTab & "<doc_id>" & arrReqTc(i, 2) & "</doc_id>"
+            xmlStr = "<doc_id>" & arrReqTc(i, 2) & "</doc_id>"
             Print #2, xmlStr
-            xmlStr = vbTab & vbTab & vbTab & vbTab & "</requirement>"
+            xmlStr = "</requirement>"
             Print #2, xmlStr
-            xmlStr = vbTab & vbTab & vbTab & "</requirements>"
+            xmlStr = "</requirements>"
             Print #2, xmlStr
           End If
         End If
       Next i
     End If
    
-    xmlStr = vbTab & vbTab & "</testcase>"
+    xmlStr = "</testcase>"
     Print #2, xmlStr
    
     If tsColCount <> 0 Then
       If iRow < arrRow Then
         If arrTS(iRow + 1, 1) <> vbNullString Then
-            Print #2, vbTab & "</testsuite>"
+            Print #2, "</testsuite>"
         End If
       Else
-        Print #2, vbTab & "</testsuite>"
+        Print #2, "</testsuite>"
       End If
     End If
   Next iRow
