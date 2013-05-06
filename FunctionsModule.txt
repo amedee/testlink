@@ -1,0 +1,21 @@
+Attribute VB_Name = "FunctionsModule"
+Option Explicit
+
+Public Function lastRow(sheet As Worksheet) As Long
+  If WorksheetFunction.CountA(Cells) > 0 Then
+    'Search for any entry, by searching backwards by Rows.
+    lastRow = sheet.Cells.Find(What:="*", After:=[A1], _
+                         SearchOrder:=xlByRows, _
+                         SearchDirection:=xlPrevious).Row
+  End If
+End Function
+
+Public Function lastColumn(sheet As Worksheet) As Long
+  If WorksheetFunction.CountA(Cells) > 0 Then
+    'Search for any entry, by searching backwards by Columns.
+    lastColumn = Cells.Find(What:="*", After:=[A1], _
+                            SearchOrder:=xlByColumns, _
+                            SearchDirection:=xlPrevious).Column
+  End If
+End Function
+

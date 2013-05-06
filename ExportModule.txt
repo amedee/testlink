@@ -1,3 +1,4 @@
+Attribute VB_Name = "ExportModule"
 Option Explicit
 
 Sub genReqnTcArr()
@@ -23,9 +24,9 @@ xmlStr = Left(xlsFileName, InStr(xlsFileName, "."))
 xmlReqFileName = Left(xlsFileName, Len(xlsFileName) - 4) & "_Req.xml"
 xmlTcFileName = Left(xlsFileName, Len(xlsFileName) - 4) & "_Tc.xml"
 'Get the last row and last column in the list
-lRow = lastRow()
+lRow = lastRow(ActiveSheet)
 arrRow = lRow - 2
-lCol = lastColumn()
+lCol = lastColumn(ActiveSheet)
 'Count the columns for test suite, test cases and requirements and identify if any custom fields are present
 'Custom fields import for other than test cases is NOT supported in TestLink
 With Sheets(1)
@@ -418,20 +419,3 @@ If tcColCount <> 0 Then
 End If
 End Sub
 
-Function lastRow() As Long
-  If WorksheetFunction.CountA(Cells) > 0 Then
-    'Search for any entry, by searching backwards by Rows.
-    lastRow = Cells.Find(What:="*", After:=[A1], _
-                         SearchOrder:=xlByRows, _
-                         SearchDirection:=xlPrevious).Row
-  End If
-End Function
-
-Function lastColumn() As Long
-  If WorksheetFunction.CountA(Cells) > 0 Then
-    'Search for any entry, by searching backwards by Columns.
-    lastColumn = Cells.Find(What:="*", After:=[A1], _
-                            SearchOrder:=xlByColumns, _
-                            SearchDirection:=xlPrevious).Column
-  End If
-End Function
